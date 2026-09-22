@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OfficePulse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div class="shell">
+  <header class="masthead">
+    <div class="wordmark"><span class="dot"></span>OfficePulse<small>attendance, timestamped</small></div>
+    <div class="masthead-right">
+      <nav class="roleswitch" aria-label="Switch view" id="roleswitch-nav">
+        <button id="btn-role-employee" aria-pressed="true" data-role="employee">Employee</button>
+        <button id="btn-role-admin" aria-pressed="false" data-role="admin">Manager</button>
+      </nav>
+      <div class="account-chip" id="account-chip">
+        <span class="avatar" id="account-avatar">—</span>
+        <span class="who"><span class="n" id="account-name">—</span><span class="r" id="account-role">—</span></span>
+      </div>
+      <button class="signout-btn" id="signout-btn">Sign out</button>
+    </div>
+  </header>
+
+  <!-- ===================== EMPLOYEE VIEW ===================== -->
+  <section id="view-employee" class="view active" aria-label="Employee check-in">
+
+    <div class="ticket-hero">
+      <div class="clock-readout">
+        <p class="label">Current time</p>
+        <div class="time" id="live-clock">--:--:--</div>
+        <div class="date" id="live-date">—</div>
+        <div class="location-status" id="location-status" data-state="checking">
+          <span class="location-dot"></span>
+          <span id="location-status-text">Checking your location…</span>
+        </div>
+        <div class="stamp" id="stamp">
+          <strong id="stamp-headline">Stamped in</strong><br>
+          <span id="stamp-detail"></span>
+        </div>
+      </div>
+      <button class="clockin-btn" id="clockin-btn" disabled>Checking location…</button>
+    </div>
+
+    <h2 class="section-head">Your attendance</h2>
+    <p class="section-sub" id="employee-name-label">Signed in as Jordan Lee</p>
+    <div class="record-list" id="employee-history"></div>
+  </section>
+
+  <!-- ===================== ADMIN VIEW ===================== -->
+  <section id="view-admin" class="view" aria-label="Manager dashboard">
+
+    <h2 class="section-head" style="margin-top:28px;">Today's roster</h2>
+    <p class="section-sub" id="admin-date-label">—</p>
+
+    <div class="summary-strip">
+      <div class="summary-cell ontime">
+        <div class="n" id="count-ontime">0</div>
+        <div class="l">On time</div>
+      </div>
+      <div class="summary-cell late">
+        <div class="n" id="count-late">0</div>
+        <div class="l">Late</div>
+      </div>
+      <div class="summary-cell">
+        <div class="n" id="count-absent">0</div>
+        <div class="l">Not arrived</div>
+      </div>
+    </div>
+
+    <div class="roster-controls">
+      <span class="section-sub" style="margin:0;">Sorted by arrival time</span>
+      <select class="day-select" id="day-select" aria-label="Select date"></select>
+    </div>
+
+    <div class="record-list" id="admin-roster" style="margin-top:14px;"></div>
+  </section>
+
+  <!-- <footer class="note">
+    Demo build — this page now requires a real session created by <code>login.html</code>
+    (it redirects here if none is found), and the roster below is the accounts created via
+    <code>signup.html</code>, merged with a small fallback list. Attendance records, users, and
+    sessions are all stored in this browser only (localStorage). In production, swap
+    <code>saveArrival()</code>, <code>loadRecords()</code>, <code>getSession()</code>, and
+    <code>loadUsers()</code> for calls to your real API, and load the office coordinates / shift
+    start time from your backend instead of the constants at the top of the script.
+  </footer> -->
+</div>
+
+<script src="../js/script.js"></script>
+</body>
+</html>

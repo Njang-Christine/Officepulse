@@ -1,0 +1,279 @@
+ /* Same token system as officepulse.html / login.html — keep in sync if you change these */
+  :root {
+    --ink: #1B1F2A;
+    --ink-soft: #2B303D;
+    --paper: #F6F4EE;
+    --card: #FFFFFF;
+    --brass: #B8874F;
+    --brass-deep: #8F6836;
+    --rust: #B5503C;
+    --rust-deep: #8C3C2C;
+    --slate: #6B7280;
+    --line: #DAD5C7;
+    --line-strong: #C4BEAC;
+
+    --font-head: "Fraunces", Georgia, serif;
+    --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: "Space Mono", "SFMono-Regular", Menlo, monospace;
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 1px 1px, rgba(27,31,42,0.035) 1px, transparent 0);
+    background-size: 18px 18px;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  ::selection { background: var(--brass); color: var(--paper); }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  header.masthead {
+    max-width: 880px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 28px 20px 18px;
+  }
+  .wordmark {
+    font-family: var(--font-head);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+  }
+  .wordmark .dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--brass); display: inline-block; transform: translateY(-2px);
+  }
+  .wordmark small {
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--slate); font-weight: 400; letter-spacing: 0.02em;
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .auth-ticket {
+    width: 100%;
+    max-width: 460px;
+    background: var(--card);
+    border: 1.5px solid var(--ink);
+    position: relative;
+    padding: 38px 32px 34px 46px;
+  }
+  .auth-ticket::before {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    width: 14px;
+    background-image: radial-gradient(circle at 7px 0, transparent 6px, var(--paper) 6.5px);
+    background-size: 14px 22px;
+    background-repeat: repeat-y;
+    border-right: 1px dashed var(--line-strong);
+  }
+
+  h1.auth-title {
+    font-family: var(--font-head);
+    font-weight: 500;
+    font-size: 24px;
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+  }
+  p.auth-sub {
+    font-size: 13.5px;
+    color: var(--slate);
+    margin: 0 0 26px;
+  }
+
+  .field-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .role-select {
+    display: flex;
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 6px;
+  }
+  .role-select input { position: absolute; opacity: 0; pointer-events: none; }
+  .role-select label {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 12px 10px;
+    cursor: pointer;
+    text-align: center;
+    color: var(--ink);
+  }
+  .role-select label + label { border-left: 1.5px solid var(--ink); }
+  .role-select label .role-name {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 13.5px;
+  }
+  .role-select label .role-desc {
+    font-family: var(--font-body);
+    font-size: 11px;
+    color: var(--slate);
+  }
+  .role-select input:checked + label {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .role-select input:checked + label .role-desc { color: rgba(246,244,238,0.7); }
+  .role-select input:focus-visible + label { outline: 2px solid var(--ink); outline-offset: -2px; }
+
+  .field { margin-bottom: 18px; }
+  .field label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--slate);
+    margin-bottom: 7px;
+  }
+  .field input {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 15px;
+    padding: 12px 13px;
+    border: 1.5px solid var(--line-strong);
+    border-radius: 2px;
+    background: var(--paper);
+    color: var(--ink);
+    transition: border-color 0.15s ease;
+  }
+  .field input:focus { border-color: var(--ink); outline: none; }
+  .field input.has-error { border-color: var(--rust); }
+  .field .error-msg {
+    display: none;
+    font-size: 12px;
+    color: var(--rust-deep);
+    margin-top: 6px;
+  }
+  .field .error-msg.show { display: block; }
+  .field .hint {
+    font-size: 11.5px;
+    color: var(--slate);
+    margin-top: 6px;
+  }
+
+  .strength-meter {
+    display: flex;
+    gap: 4px;
+    margin-top: 8px;
+  }
+  .strength-meter .bar {
+    height: 3px;
+    flex: 1;
+    background: var(--line);
+    border-radius: 2px;
+    transition: background 0.15s ease;
+  }
+  .strength-meter[data-level="1"] .bar:nth-child(1) { background: var(--rust); }
+  .strength-meter[data-level="2"] .bar:nth-child(-n+2) { background: var(--brass); }
+  .strength-meter[data-level="3"] .bar { background: var(--brass-deep); }
+
+  .submit-btn {
+    width: 100%;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 15px;
+    padding: 15px 20px;
+    border-radius: 999px;
+    border: none;
+    background: var(--ink);
+    color: var(--paper);
+    cursor: pointer;
+    transition: transform 0.12s ease, background 0.15s ease;
+    margin-top: 4px;
+  }
+  .submit-btn:hover { background: var(--ink-soft); }
+  .submit-btn:active { transform: scale(0.98); }
+  .submit-btn:disabled { background: var(--line-strong); color: var(--slate); cursor: not-allowed; }
+
+  .form-banner {
+    display: none;
+    margin-bottom: 20px;
+    padding: 12px 14px;
+    border: 1.5px dashed var(--rust-deep);
+    border-radius: 2px;
+    background: rgba(181,80,60,0.08);
+    color: var(--rust-deep);
+    font-size: 13px;
+  }
+  .form-banner.show { display: block; }
+  .form-banner.success {
+    border-color: var(--brass-deep);
+    background: rgba(184,135,79,0.08);
+    color: var(--brass-deep);
+  }
+
+  .terms-row {
+    display: flex;
+    gap: 9px;
+    align-items: flex-start;
+    margin: 4px 0 22px;
+    font-size: 12.5px;
+    color: var(--slate);
+    line-height: 1.5;
+  }
+  .terms-row input { margin-top: 3px; flex-shrink: 0; }
+  .terms-row a { color: var(--ink); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--line-strong); }
+
+  .auth-switch {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 13.5px;
+    color: var(--slate);
+  }
+  .auth-switch a {
+    color: var(--ink);
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1.5px solid var(--brass);
+  }
+
+  footer.note {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 20px 28px;
+    font-size: 12px;
+    color: var(--slate);
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 480px) {
+    .auth-ticket { padding: 32px 22px 28px 38px; }
+    .field-pair { grid-template-columns: 1fr; gap: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .submit-btn { transition: none; }
+  }

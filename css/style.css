@@ -1,0 +1,440 @@
+  /* ============================================================
+     OfficePulse — design tokens
+     Punch-clock / time-ticket visual language: an institutional
+     but human take on attendance tracking. Ink + paper base,
+     brass for "on time", rust for "late". Tabular mono for the
+     actual clock readouts (content, not decoration); serif for
+     headings; grotesk sans for everything else.
+     ============================================================ */
+  :root {
+    --ink: #1B1F2A;
+    --ink-soft: #2B303D;
+    --paper: #F6F4EE;
+    --paper-dim: #ECE8DE;
+    --card: #FFFFFF;
+    --brass: #B8874F;
+    --brass-deep: #8F6836;
+    --rust: #B5503C;
+    --rust-deep: #8C3C2C;
+    --slate: #6B7280;
+    --line: #DAD5C7;
+    --line-strong: #C4BEAC;
+
+    --font-head: "Fraunces", Georgia, serif;
+    --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: "Space Mono", "SFMono-Regular", Menlo, monospace;
+
+    --radius-ticket: 2px;
+    --radius-pill: 999px;
+
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Subtle paper texture via layered gradients — no external assets */
+  body {
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(27,31,42,0.035) 1px, transparent 0);
+    background-size: 18px 18px;
+  }
+
+  a { color: inherit; }
+
+  ::selection { background: var(--brass); color: var(--paper); }
+
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+
+  .visually-hidden {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap;
+  }
+
+  /* ---------- Layout shell ---------- */
+  .shell {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 20px 96px;
+  }
+
+  header.masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 28px 0 18px;
+    border-bottom: 2px solid var(--ink);
+    flex-wrap: wrap;
+  }
+
+  .masthead-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .account-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+  }
+  .account-chip .avatar {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .account-chip .who {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+  }
+  .account-chip .who .n { font-weight: 600; }
+  .account-chip .who .r {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--slate);
+  }
+
+  .signout-btn {
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    font-weight: 600;
+    background: transparent;
+    border: 1.5px solid var(--line-strong);
+    border-radius: 999px;
+    padding: 7px 13px;
+    cursor: pointer;
+    color: var(--slate);
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .signout-btn:hover { border-color: var(--ink); color: var(--ink); }
+
+  .wordmark {
+    font-family: var(--font-head);
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+  }
+  .wordmark .dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--brass);
+    display: inline-block;
+    transform: translateY(-2px);
+  }
+  .wordmark small {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--slate);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+
+  nav.roleswitch {
+    display: flex;
+    border: 1.5px solid var(--ink);
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+    font-size: 13px;
+  }
+  nav.roleswitch button {
+    font-family: var(--font-body);
+    font-weight: 600;
+    background: transparent;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    color: var(--ink);
+  }
+  nav.roleswitch button[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  nav.roleswitch button + button { border-left: 1.5px solid var(--ink); }
+
+  .view { display: none; padding-top: 8px; }
+  .view.active { display: block; }
+
+  /* ---------- Hero clock-in ticket ---------- */
+  .ticket-hero {
+    margin-top: 28px;
+    background: var(--card);
+    border: 1.5px solid var(--ink);
+    position: relative;
+    padding: 36px 32px 30px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: center;
+  }
+  /* perforated edge, punch-card nod */
+  .ticket-hero::before {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    width: 14px;
+    background-image: radial-gradient(circle at 7px 0, transparent 6px, var(--paper) 6.5px);
+    background-size: 14px 22px;
+    background-repeat: repeat-y;
+    border-right: 1px dashed var(--line-strong);
+  }
+  .ticket-hero { padding-left: 46px; }
+
+  .clock-readout .label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--slate);
+    margin: 0 0 6px;
+  }
+  .clock-readout .time {
+    font-family: var(--font-mono);
+    font-size: clamp(34px, 8vw, 52px);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+  }
+  .clock-readout .date {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--slate);
+    margin-top: 6px;
+  }
+
+  .location-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    margin-top: 14px;
+    color: var(--slate);
+    font-family: var(--font-body);
+  }
+  .location-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--slate);
+    flex-shrink: 0;
+  }
+  .location-status[data-state="ok"] .location-dot { background: var(--brass); }
+  .location-status[data-state="bad"] .location-dot { background: var(--rust); }
+  .location-status[data-state="checking"] .location-dot {
+    background: var(--ink);
+    animation: pulse 1.1s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
+
+  .clockin-btn {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 15px;
+    padding: 18px 26px;
+    border-radius: var(--radius-pill);
+    border: none;
+    background: var(--ink);
+    color: var(--paper);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: transform 0.12s ease, background 0.15s ease;
+  }
+  .clockin-btn:hover:not(:disabled) { background: var(--ink-soft); }
+  .clockin-btn:active:not(:disabled) { transform: scale(0.97); }
+  .clockin-btn:disabled {
+    background: var(--line-strong);
+    color: var(--slate);
+    cursor: not-allowed;
+  }
+  .clockin-btn.done {
+    background: var(--brass-deep);
+  }
+
+  /* stamped confirmation */
+  .stamp {
+    display: none;
+    margin-top: 22px;
+    padding: 16px 18px;
+    border: 1.5px dashed var(--brass-deep);
+    border-radius: var(--radius-ticket);
+    background: rgba(184,135,79,0.08);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--brass-deep);
+  }
+  .stamp.show { display: block; }
+  .stamp.late { border-color: var(--rust-deep); background: rgba(181,80,60,0.08); color: var(--rust-deep); }
+
+  /* ---------- Section headings ---------- */
+  h2.section-head {
+    font-family: var(--font-head);
+    font-weight: 500;
+    font-size: 21px;
+    margin: 44px 0 4px;
+    letter-spacing: -0.01em;
+  }
+  p.section-sub {
+    font-size: 13.5px;
+    color: var(--slate);
+    margin: 0 0 16px;
+  }
+
+  /* ---------- Tables (history / roster) ---------- */
+  .record-list { border-top: 1.5px solid var(--ink); }
+  .record-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 14px;
+    align-items: center;
+    padding: 13px 2px;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+  }
+  .record-row .who {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .record-row .who .name {
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .record-row .who .date {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--slate);
+  }
+  .record-row .time {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    font-size: 14px;
+    text-align: right;
+  }
+
+  .pill {
+    font-family: var(--font-body);
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 4px 11px;
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
+    justify-self: end;
+  }
+  .pill.ontime { background: rgba(184,135,79,0.15); color: var(--brass-deep); }
+  .pill.late { background: rgba(181,80,60,0.15); color: var(--rust-deep); }
+  .pill.absent { background: var(--line); color: var(--slate); }
+
+  .empty-state {
+    padding: 28px 4px;
+    color: var(--slate);
+    font-size: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  /* ---------- Admin summary strip ---------- */
+  .summary-strip {
+    display: flex;
+    gap: 0;
+    border: 1.5px solid var(--ink);
+    margin-top: 22px;
+  }
+  .summary-cell {
+    flex: 1;
+    padding: 18px 16px;
+    border-right: 1.5px solid var(--ink);
+  }
+  .summary-cell:last-child { border-right: none; }
+  .summary-cell .n {
+    font-family: var(--font-mono);
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .summary-cell .l {
+    font-size: 12px;
+    color: var(--slate);
+    margin-top: 6px;
+  }
+  .summary-cell.ontime .n { color: var(--brass-deep); }
+  .summary-cell.late .n { color: var(--rust-deep); }
+
+  .roster-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  select.day-select {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    padding: 8px 12px;
+    border: 1.5px solid var(--ink);
+    border-radius: var(--radius-ticket);
+    background: var(--card);
+    color: var(--ink);
+  }
+
+  /* admin roster row includes distance-from-office note */
+  .record-row .meta {
+    font-size: 11.5px;
+    color: var(--slate);
+    margin-top: 1px;
+  }
+
+  footer.note {
+    margin-top: 56px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--slate);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 560px) {
+    .ticket-hero {
+      grid-template-columns: 1fr;
+      padding: 30px 22px 26px 40px;
+    }
+    .clockin-btn { width: 100%; }
+    .summary-strip { flex-wrap: wrap; }
+    .summary-cell { flex: 1 1 33%; border-bottom: 1.5px solid var(--ink); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .location-dot { animation: none !important; }
+    .clockin-btn { transition: none; }
+  }

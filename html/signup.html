@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Create account — OfficePulse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/signup.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wordmark"><span class="dot"></span>OfficePulse<small>attendance, timestamped</small></div>
+</header>
+
+<main>
+  <div class="auth-ticket">
+    <h1 class="auth-title">Create your account</h1>
+    <p class="auth-sub">Set up in under a minute — you'll be clocking in right after.</p>
+
+    <div class="form-banner" id="form-banner"></div>
+
+    <form id="signup-form" novalidate>
+      <div class="field">
+        <label for="name">Full name</label>
+        <input type="text" id="name" name="name" autocomplete="name" placeholder="Jordan Lee" required>
+        <div class="error-msg" id="name-error"></div>
+      </div>
+
+      <div class="field">
+        <label id="role-label">Account type</label>
+        <div class="role-select" role="radiogroup" aria-labelledby="role-label">
+          <input type="radio" id="role-employee" name="role" value="employee" checked>
+          <label for="role-employee">
+            <span class="role-name">Employee</span>
+            <span class="role-desc">Clock in, view your own history</span>
+          </label>
+          <input type="radio" id="role-manager" name="role" value="manager">
+          <label for="role-manager">
+            <span class="role-name">Manager</span>
+            <span class="role-desc">See the team roster too</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="email">Work email</label>
+        <input type="email" id="email" name="email" autocomplete="email" placeholder="you@company.com" required>
+        <div class="error-msg" id="email-error"></div>
+      </div>
+
+      <div class="field">
+        <label for="company-code">Company code</label>
+        <input type="text" id="company-code" name="company-code" placeholder="e.g. ACME-HQ" required>
+        <div class="hint">Ask your office manager for this — it links you to the right office location.</div>
+        <div class="error-msg" id="company-code-error"></div>
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" autocomplete="new-password" placeholder="At least 8 characters" required>
+        <div class="strength-meter" id="strength-meter" data-level="0">
+          <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        </div>
+        <div class="error-msg" id="password-error"></div>
+      </div>
+
+      <div class="field">
+        <label for="confirm-password">Confirm password</label>
+        <input type="password" id="confirm-password" name="confirm-password" autocomplete="new-password" placeholder="••••••••" required>
+        <div class="error-msg" id="confirm-password-error"></div>
+      </div>
+
+      <label class="terms-row">
+        <input type="checkbox" id="terms" name="terms" required>
+        <span>I agree to my employer tracking my check-in time and office location for attendance purposes only.</span>
+      </label>
+
+      <button type="submit" class="submit-btn" id="submit-btn">Create account</button>
+    </form>
+
+    <p class="auth-switch">Already have an account? <a href="login.html">Sign in</a></p>
+  </div>
+</main>
+
+<script src="../js/signup.js"></script>
+</body>
+</html>
